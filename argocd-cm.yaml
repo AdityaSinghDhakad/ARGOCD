@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  repositories: |
+    - url: <YOUR_PRIVATE_REPO_URL>
+      sshPrivateKey: |
+        -----BEGIN RSA PRIVATE KEY-----
+        <YOUR_SSH_PRIVATE_KEY>
+        -----END RSA PRIVATE KEY-----
+  application.instanceLabelKey: app.kubernetes.io/name
+  application.operatorNamespace: argocd
+  application.syncPolicy: |
+    automated:
+      prune: true
+      selfHeal: true
+  dex.config: |
+    connectors:
+    - name: GitHub
+      config:
+        clientID: <YOUR_GITHUB_CLIENT_ID>
+        clientSecret: <YOUR_GITHUB_CLIENT_SECRET>
+        redirectURI: https://argocd.example.com/auth/callback
+        issuer: https://github.com
+  server.exposeMetrics: "true"

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  policy.default: role:readonly
+  scopes: '[groups, repositories, openid, profile, email]'
+  policy.csv: |
+    g, argocd-manager-role, role:admin
+  policy.json: |
+    {
+      "role": "admin",
+      "policies": [
+        {
+          "p": {"p": [""], "e": [""], "r": ["*"]},
+          "g": []
+        }
+      ]
+    }
